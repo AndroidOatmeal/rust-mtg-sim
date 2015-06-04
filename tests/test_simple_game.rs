@@ -1,3 +1,6 @@
+#![feature(plugin)]
+#![plugin(clippy)]
+
 extern crate mtgsim;
 
 use mtgsim::{GameState, Hand, Player};

@@ -1,4 +1,12 @@
 [root]
 name = "mtgsim"
 version = "0.1.0"
+dependencies = [
+ "clippy 0.0.4 (git+https://github.com/Manishearth/rust-clippy)",
+]
+
+[[package]]
+name = "clippy"
+version = "0.0.4"
+source = "git+https://github.com/Manishearth/rust-clippy#87047c3223434f38c4012f4fac71b5dedf0ba169"
 
