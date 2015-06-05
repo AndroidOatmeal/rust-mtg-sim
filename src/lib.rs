@@ -9,9 +9,11 @@ impl Player {
     }
 
     pub fn play_turn(&self, prev_game_state: GameState) -> GameState {
+        let hand = prev_game_state.hand;
         GameState {
             turn: prev_game_state.turn + 1,
-            battlefield: prev_game_state.battlefield,
+            battlefield: hand,
+            hand: vec![],
         }
     }
 }
@@ -20,20 +22,17 @@ impl Player {
 pub struct GameState {
     pub turn: i32,
     pub battlefield: Vec<String>,
+    pub hand: Vec<String>,
 }
 
 impl GameState {
-    pub fn new() -> GameState {
+    pub fn new(hand: &Vec<&str>) -> GameState {
         GameState {
             turn: 0,
-            battlefield: Vec::new(),
-        }
-    }
-
-    pub fn new_with_hand(h: Hand) -> GameState {
-        GameState {
-            turn: 0,
-            battlefield: vec![h.card],
+            battlefield: vec![],
+            hand: hand.clone().iter()
+                .map(|n| n.to_string())
+                .collect(),
         }
     }
 }
