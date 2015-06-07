@@ -23,21 +23,19 @@ impl Player {
 
 pub struct GameState {
     pub turn: i32,
-    pub battlefield: Vec<String>,
-    pub battlefield_tapped: Vec<String>,
-    pub hand: Vec<String>,
+    pub battlefield: Vec<Card>,
+    pub battlefield_tapped: Vec<Card>,
+    pub hand: Vec<Card>,
     pub player2_life_total: i32,
 }
 
 impl GameState {
-    pub fn new(hand: &Vec<&str>) -> GameState {
+    pub fn new(hand: &Vec<Card>) -> GameState {
         GameState {
             turn: 0,
             battlefield: vec![],
             battlefield_tapped: vec![],
-            hand: hand.clone().iter()
-                .map(|n| n.to_string())
-                .collect(),
+            hand: hand.clone(),
             player2_life_total: 17,
         }
     }
@@ -50,6 +48,17 @@ pub struct Hand {
 
 impl Hand {
     pub fn new(card_str: &str) -> Hand {
-        Hand { card: card_str.to_string() }
+        Hand { card: card_str.to_owned() }
+    }
+}
+
+#[derive(Clone,PartialEq)]
+pub struct Card {
+    pub name: String,
+}
+
+impl Card {
+    pub fn named(card_name: &str) -> Card {
+        Card { name: card_name.to_owned() }
     }
 }
