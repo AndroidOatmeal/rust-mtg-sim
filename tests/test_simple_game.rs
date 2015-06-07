@@ -7,7 +7,7 @@ extern crate mtgsim;
 mod test_harness {
     use mtgsim::{Card, GameState, Player};
 
-    fn setup_gamestate_with_hand(hand: Vec<&str>) -> GameState {
+    fn play_turn_with_hand(hand: Vec<&str>) -> GameState {
         let player = Player::new();
         let cards_in_hand: Vec<Card> = hand.iter().map(|n| Card::named(n)).collect();
         let simple_game_state = GameState::new(&cards_in_hand);
@@ -16,23 +16,41 @@ mod test_harness {
 
     #[test]
     fn test_player_pass_turn() {
-        let new_game_state = setup_gamestate_with_hand(vec![]);
-        assert_eq!(1, new_game_state.turn);
+        let game_state = play_turn_with_hand(vec![]);
+        let expected_state = GameState {
+            turn: 1,
+            battlefield: vec![],
+            battlefield_tapped: vec![],
+            player2_life_total: 20,
+            hand: vec![],
+        };
+        assert_eq!(expected_state, game_state);
     }
 
     #[test]
     fn test_play_land() {
-        let new_game_state = setup_gamestate_with_hand(vec!["Mountain"]);
-        assert!(new_game_state.battlefield.contains(&Card::named("Mountain")));
-        assert_eq!(1, new_game_state.turn);
+        let game_state = play_turn_with_hand(vec!["Mountain"]);
+        let expected_state = GameState {
+            turn: 1,
+            battlefield: vec![Card::named("Mountain")],
+            battlefield_tapped: vec![],
+            player2_life_total: 20,
+            hand: vec![],
+        };
+        assert_eq!(expected_state, game_state);
     }
 
     #[test]
     fn test_play_bolt() {
-        let new_game_state = setup_gamestate_with_hand(vec!["Mountain", "Lightning Bolt"]);
-        assert!(new_game_state.battlefield_tapped.contains(&Card::named("Mountain")));
-        assert_eq!(17, new_game_state.player2_life_total);
-        assert_eq!(1, new_game_state.turn);
+        let game_state = play_turn_with_hand(vec!["Mountain", "Lightning Bolt"]);
+        let expected_state = GameState {
+            turn: 1,
+            battlefield: vec![],
+            battlefield_tapped: vec![Card::named("Mountain")],
+            player2_life_total: 17,
+            hand: vec![],
+        };
+        assert_eq!(expected_state, game_state);
     }
 
 }
